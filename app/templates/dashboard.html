@@ -1,11 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arkham Security Dashboard</title>
-    <script src="/static/js/dashboard.js" defer></script>
+    <!-- Include Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 1rem 0;
+        text-align: center;
+      }
+      .dashboard-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 20px;
+        padding: 20px;
+        max-width: 1600px;
+        margin: 20px auto;
+      }
+      .chart-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        min-height: 300px; /* Ensure containers have some height */
+        display: flex;
+        flex-direction: column;
+      }
+      .chart-container h2 {
+        margin-top: 0;
+        text-align: center;
+        color: #555;
+        font-size: 1.2em;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+      .plotly-graph-div {
+        flex-grow: 1; /* Allow chart to fill space */
+      }
+      /* Style for simple text display */
+      .data-display {
+        font-size: 0.9em;
+        line-height: 1.6;
+        white-space: pre-wrap; /* Preserve formatting */
+        word-wrap: break-word;
+        flex-grow: 1;
+        overflow-y: auto; /* Add scroll if content overflows */
+      }
+    </style>
   </head>
   <body>
-    <h1>Arkham Dashboard</h1>
-    <div id="network-status"></div>
+    <header>
+      <h1>Arkham Security Dashboard</h1>
+    </header>
+
+    <div class="dashboard-container">
+      <div class="chart-container">
+        <h2>Network Monitoring</h2>
+        <div id="network-chart"></div>
+      </div>
+      <div class="chart-container">
+        <h2>Biometric Access</h2>
+        <div id="biometric-chart"></div>
+      </div>
+      <div class="chart-container">
+        <h2>Inmate Threats</h2>
+        <div id="inmate-threats-chart"></div>
+      </div>
+      <div class="chart-container">
+        <h2>Internal Comms</h2>
+        <div id="internal-comms-chart"></div>
+      </div>
+      <div class="chart-container">
+        <h2>Physical Security</h2>
+        <div id="physical-security-chart"></div>
+      </div>
+      <div class="chart-container">
+        <h2>Server Logs</h2>
+        <div id="server-logs-chart"></div>
+      </div>
+      <div class="chart-container">
+        <h2>Video Surveillance</h2>
+        <div id="video-surveillance-chart"></div>
+      </div>
+    </div>
+
+    <!-- Link to the dashboard JavaScript -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
   </body>
 </html>
