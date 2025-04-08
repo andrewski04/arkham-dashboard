@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arkham Dashboard - {% block title %}{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <!-- DataTables CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <nav>
+      <h1>Arkham Asylum Security Dashboard</h1>
+      <ul>
+        <li><a href="{{ url_for('frontend.dashboard') }}">Overview</a></li>
+        <li><a href="{{ url_for('frontend.network_logs') }}">Network</a></li>
+        <li><a href="{{ url_for('frontend.server_logs') }}">Server Logs</a></li>
+        <li>
+          <a href="{{ url_for('frontend.video_surveillance_logs') }}"
+            >Video Surveillance</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('frontend.biometric_access_logs') }}"
+            >Biometric Access</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('frontend.physical_security_logs') }}"
+            >Physical Security</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('frontend.internal_comms_logs') }}"
+            >Internal Comms</a
+          >
+        </li>
+        <li>
+          <a href="{{ url_for('frontend.inmate_threats_logs') }}"
+            >Inmate Threats</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <main>{% block content %}{% endblock %}</main>
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/dashboard.js') }}"
+    ></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <!-- DataTables JS -->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"
+    ></script>
+    <!-- Custom JS for initializing DataTables -->
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/log-view.js') }}"
+    ></script>
+  </body>
+</html>

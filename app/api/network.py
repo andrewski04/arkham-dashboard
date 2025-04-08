@@ -1,22 +1,17 @@
 from flask import Blueprint, jsonify
-import random
+from app.api.sample_log_generator import generate_network_log
+import datetime
 
-# This is an example blueprint for the network-monitoring endpoint. 
+# This is an example blueprint for the network-monitoring endpoint.
 # A new blueprint will be created for each endpoint.
 
 # ensure that you set a URL prefix for the endpoint's route
 bp = Blueprint('network_api', __name__, url_prefix='/api/network-monitoring')
 
-# this contains static sample data, but in the future will generate more logs.
 @bp.route('/')
 def get_network_logs():
-    data = {
-        "source_ip": "192.168.1.54",
-        "destination_ip": "10.0.0.7",
-        "protocol": "TCP",
-        "port": 22,
-        "action": "blocked",
-        "threat_level": random.choice(["low", "medium", "high"]),
-        "timestamp": "2025-04-03T10:23:00Z"
-    }
-    return jsonify(data)
+    # Generate a list of logs
+    logs = [generate_network_log() for _ in range(50)] # Generate 50 sample logs
+    # Sort logs by timestamp (descending - newest first)
+    logs.sort(key=lambda x: x['timestamp'], reverse=True)
+    return jsonify(logs) # Return the sorted list

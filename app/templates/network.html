@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %}Network Logs{% endblock %} {% block
+content %}
+<h2>Network Monitoring Logs</h2>
+<div class="log-table-container">
+  <table
+    id="logTable"
+    class="display compact"
+    style="width: 100%"
+    data-endpoint="/api/network-monitoring"
+    data-columns='[
+           {"data": "timestamp", "title": "Timestamp"},
+           {"data": "source_ip", "title": "Source IP"},
+           {"data": "destination_ip", "title": "Destination IP"},
+           {"data": "protocol", "title": "Protocol"},
+           {"data": "port", "title": "Port"},
+           {"data": "action", "title": "Action"},
+           {"data": "threat_level", "title": "Threat Level"}
+         ]'
+  >
+    <!-- Table body will be populated by DataTables -->
+  </table>
+</div>
+{% endblock %}

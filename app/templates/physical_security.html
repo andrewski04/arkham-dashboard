@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %}Physical Security{% endblock %} {%
+block content %}
+<h2>Physical Security Logs</h2>
+<div class="log-table-container">
+  <table
+    id="logTable"
+    class="display compact"
+    style="width: 100%"
+    data-endpoint="/api/physical-security"
+    data-columns='[
+           {"data": "timestamp", "title": "Timestamp"},
+           {"data": "system", "title": "System"},
+           {"data": "location", "title": "Location"},
+           {"data": "status", "title": "Status"},
+           {"data": "trigger_reason", "title": "Trigger Reason"}
+         ]'
+  >
+    <!-- Table body will be populated by DataTables -->
+  </table>
+</div>
+{% endblock %}

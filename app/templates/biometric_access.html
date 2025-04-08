@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block title %}Biometric Access{% endblock %} {%
+block content %}
+<h2>Biometric Access Logs</h2>
+<div class="log-table-container">
+  <table
+    id="logTable"
+    class="display compact"
+    style="width: 100%"
+    data-endpoint="/api/biometric-access"
+    data-columns='[
+           {"data": "timestamp", "title": "Timestamp"},
+           {"data": "scanner_id", "title": "Scanner ID"},
+           {"data": "user_id", "title": "User ID"},
+           {"data": "access_result", "title": "Access Result"},
+           {"data": "reason", "title": "Reason"},
+           {"data": "location", "title": "Location"}
+         ]'
+  >
+    <!-- Table body will be populated by DataTables -->
+  </table>
+</div>
+{% endblock %}

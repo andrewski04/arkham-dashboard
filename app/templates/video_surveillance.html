@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block title %}Video Surveillance{% endblock %} {%
+block content %}
+<h2>Video Surveillance Logs</h2>
+<div class="log-table-container">
+  <table
+    id="logTable"
+    class="display compact"
+    style="width: 100%"
+    data-endpoint="/api/video-surveillance"
+    data-columns='[
+           {"data": "timestamp", "title": "Timestamp"},
+           {"data": "location", "title": "Location"},
+           {"data": "level", "title": "Level"},
+           {"data": "activity", "title": "Activity"}
+         ]'
+  >
+    <!-- Table body will be populated by DataTables -->
+  </table>
+</div>
+{% endblock %}

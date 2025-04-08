@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %}Internal Communications{% endblock %}
+{% block content %}
+<h2>Internal Communications Logs</h2>
+<div class="log-table-container">
+  <table
+    id="logTable"
+    class="display compact"
+    style="width: 100%"
+    data-endpoint="/api/internal-comms"
+    data-columns='[
+           {"data": "timestamp", "title": "Timestamp"},
+           {"data": "type", "title": "Type"},
+           {"data": "recipients", "title": "Recipients"},
+           {"data": "message", "title": "Message"},
+           {"data": "sent_by", "title": "Sent By"}
+         ]'
+  >
+    <!-- Table body will be populated by DataTables -->
+  </table>
+</div>
+{% endblock %}

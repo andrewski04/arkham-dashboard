@@ -1,16 +1,14 @@
 from flask import Blueprint, jsonify
-import random
+from app.api.sample_log_generator import generate_server_log
+import datetime
 
-# ensure that you set a URL prefix for the endpoint's route
-bp = Blueprint('server_logs', __name__, url_prefix='/api/server-logs')
+# Blueprint for server logs API
+bp = Blueprint('server_logs_api', __name__, url_prefix='/api/server-logs')
 
 @bp.route('/')
 def get_server_logs():
-    data = {
-        "server": "auth-node-3",
-        "event": "Multiple failed SSH login attempts",
-        "attempts": 7,
-        "status": "investigating",
-        "timestamp": "2025-04-03T10:21:15Z"
-    }
-    return jsonify(data)
+    # Generate a list of logs
+    logs = [generate_server_log() for _ in range(50)] # Generate 50 sample logs
+    # Sort logs by timestamp (descending - newest first)
+    logs.sort(key=lambda x: x['timestamp'], reverse=True)
+    return jsonify(logs) # Return the sorted list

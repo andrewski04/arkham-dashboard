@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %}Inmate Threats{% endblock %} {% block
+content %}
+<h2>Inmate Threat Logs</h2>
+<div class="log-table-container">
+  <table
+    id="logTable"
+    class="display compact"
+    style="width: 100%"
+    data-endpoint="/api/inmate-threats"
+    data-columns='[
+           {"data": "timestamp", "title": "Timestamp"},
+           {"data": "inmate_id", "title": "Inmate ID"},
+           {"data": "name", "title": "Name"},
+           {"data": "threat_level", "title": "Threat Level"},
+           {"data": "last_known_location", "title": "Last Known Location"},
+           {"data": "incident_flag", "title": "Incident Flag"},
+           {"data": "recommendation", "title": "Recommendation"}
+         ]'
+  >
+    <!-- Table body will be populated by DataTables -->
+  </table>
+</div>
+{% endblock %}

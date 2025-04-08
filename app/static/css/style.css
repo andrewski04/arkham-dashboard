@@ -1,0 +1,232 @@
+/* Arkham Dashboard Styles */
+
+:root {
+  --primary-color: #1a1a2e;
+  --secondary-color: #16213e;
+  --accent-color: #0f3460;
+  --highlight-color: #e94560;
+  --text-color: #f1f1f1;
+  --border-color: #30475e;
+  --success-color: #4caf50;
+  --warning-color: #ff9800;
+  --danger-color: #f44336;
+  --info-color: #2196f3;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+/* Navigation */
+nav {
+  background-color: var(--secondary-color);
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+nav h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--highlight-color);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+  flex-wrap: wrap;
+}
+
+nav li {
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+nav a:hover {
+  background-color: var(--accent-color);
+}
+
+/* Main Content */
+main {
+  padding: 1rem;
+}
+
+h2 {
+  color: var(--highlight-color);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+h3 {
+  color: var(--text-color);
+  margin-top: 0;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.chart-container,
+.stats-container {
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  height: 300px;
+  overflow: hidden;
+}
+
+.chart-container canvas {
+  max-height: 100%;
+}
+
+/* Tables */
+.log-table-container {
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Status Indicators */
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.status-low {
+  background-color: var(--success-color);
+}
+
+.status-medium {
+  background-color: var(--warning-color);
+}
+
+.status-high,
+.status-critical,
+.status-severe {
+  background-color: var(--danger-color);
+}
+
+/* Severity/Status Labels in Tables */
+.log-label {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #fff;
+  font-size: 0.85em;
+  text-transform: capitalize;
+}
+
+.log-label.low,
+.log-label.granted,
+.log-label.allowed,
+.log-label.successful-authentication,
+.log-label.active,
+.log-label.monitoring,
+.log-label.investigating {
+  background-color: var(--success-color);
+}
+
+.log-label.medium,
+.log-label.warning,
+.log-label.denied,
+.log-label.blocked,
+.log-label.inactive {
+  background-color: var(--warning-color);
+}
+
+.log-label.high,
+.log-label.critical,
+.log-label.severe,
+.log-label.escalated,
+.log-label.fault,
+.log-label.failed,
+.log-label.error {
+  background-color: var(--danger-color);
+}
+
+.log-label.info {
+  background-color: var(--info-color);
+}
+
+/* Recent Activity List */
+#recentActivityList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#recentActivityList li {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#recentActivityList li:last-child {
+  border-bottom: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  nav ul {
+    flex-direction: column;
+  }
+
+  nav li {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}

@@ -1,16 +1,14 @@
 from flask import Blueprint, jsonify
-import random
+from app.api.sample_log_generator import generate_physical_security_log
+import datetime
 
-# ensure that you set a URL prefix for the endpoint's route
-bp = Blueprint('physical_security', __name__, url_prefix='/api/physical-security')
+# Blueprint for physical security logs API
+bp = Blueprint('physical_security_api', __name__, url_prefix='/api/physical-security')
 
 @bp.route('/')
 def get_physical_security_logs():
-    data = {
-        "system": "emergency_alarm",
-        "location": "cell block D",
-        "status": "active",
-        "trigger_reason": "manual override",
-        "timestamp": "2025-04-03T10:26:50Z"
-    }
-    return jsonify(data)
+    # Generate a list of logs
+    logs = [generate_physical_security_log() for _ in range(50)] # Generate 50 sample logs
+    # Sort logs by timestamp (descending - newest first)
+    logs.sort(key=lambda x: x['timestamp'], reverse=True)
+    return jsonify(logs) # Return the sorted list

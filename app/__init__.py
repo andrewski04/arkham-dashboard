@@ -10,7 +10,7 @@ def create_app():
     app = Flask(__name__)
 
     # API endpoints, the rest will be added when they are created
-    from .api import network, server_logs, video_surveillance, biometric_access, physical_security, internal_comms, inmate_threats
+    from .api import network, server_logs, video_surveillance, biometric_access, physical_security, internal_comms, inmate_threats, sample_logs
     app.register_blueprint(network.bp)
     app.register_blueprint(server_logs.bp)
     app.register_blueprint(video_surveillance.bp)
@@ -18,6 +18,7 @@ def create_app():
     app.register_blueprint(physical_security.bp)
     app.register_blueprint(internal_comms.bp)
     app.register_blueprint(inmate_threats.bp)
+    app.register_blueprint(sample_logs.bp) # Re-added for dashboard aggregation
 
     # Frontend route
     from . import routes
