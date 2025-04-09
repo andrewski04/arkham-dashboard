@@ -1,8 +1,10 @@
 import random
 import datetime
+from datetime import timezone # Import timezone
 
 def random_timestamp():
-    now = datetime.datetime.utcnow()
+    # Use timezone-aware UTC time
+    now = datetime.datetime.now(timezone.utc)
     # Generate timestamps within the last 10 seconds to avoid immediate purging
     delta = datetime.timedelta(seconds=random.randint(0, 10))
     ts = now - delta

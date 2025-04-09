@@ -59,6 +59,56 @@ This is a prototype for the **Project Arkham** security dashboard. It's a simple
 
 ---
 
+
+## Running tests
+
+### Backend tests (API + integration)
+
+Make sure your virtual environment is activated and dependencies installed.
+
+Run all Python tests with:
+
+```
+python -m pytest
+```
+
+### Frontend JavaScript unit tests
+
+Install the dependencies with:
+
+```
+npm install
+```
+
+Run frontend tests with:
+
+```
+npx jest
+```
+
+### End-to-end (E2E) tests
+Install the dependencies (if not done) with:
+
+```
+npm install
+```
+
+Start your Flask server first:
+
+```
+python run.py
+```
+
+Then, in a separate terminal, run:
+
+```
+npx playwright test
+```
+
+This will launch a browser and run the E2E tests against your running app.
+
+---
+
 ## Project structure
 
 ```
@@ -97,7 +147,3 @@ arkham-dashboard/
             └── utils.js
 
 ```
-
-
-
-
