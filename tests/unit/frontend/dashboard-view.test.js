@@ -27,7 +27,14 @@ beforeEach(() => {
 
   // Mock Chart constructor
   global.Chart = jest.fn().mockImplementation(() => ({
-    data: { datasets: [{ data: [0, 0, 0, 0] }], labels: [] },
+    data: {
+      datasets: [
+        { data: Array(12).fill(0) }, // Network
+        { data: Array(12).fill(0) }, // Security
+        { data: Array(12).fill(0) }, // Access
+      ],
+      labels: Array(12).fill(""),
+    },
     update: jest.fn(),
   }));
 });

@@ -35,6 +35,11 @@ function fetchSampleLogs(logStore, recentActivityList) {
   fetch("/api/sample-logs")
     .then((response) => response.json())
     .then((data) => {
+      if (!data || typeof data !== "object") {
+        console.error("Invalid or empty sample logs response:", data);
+        return;
+      }
+
       console.log("Sample logs data:", data);
 
       // Store logs
@@ -212,7 +217,16 @@ function updateSeverityChart(logStore) {
 
 // Update time chart with alert frequency
 function updateTimeChart() {
-  if (!timeChart) return;
+  if (
+    !timeChart ||
+    !timeChart.data ||
+    !Array.isArray(timeChart.data.datasets) ||
+    timeChart.data.datasets.length < 3 ||
+    !Array.isArray(timeChart.data.labels)
+  ) {
+    console.error("Invalid or uninitialized timeChart object:", timeChart);
+    return;
+  }
 
   // Simulate time-based data (in a real app, we'd use actual timestamps)
   // For this prototype, we'll just shift data and add a new random point
