@@ -26,6 +26,10 @@ nav {
   background-color: var(--secondary-color);
   padding: 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the top */
+  flex-wrap: wrap;
 }
 
 nav h1 {
@@ -34,17 +38,41 @@ nav h1 {
   color: var(--highlight-color);
 }
 
-nav ul {
+nav .nav-links {
   display: flex;
   list-style: none;
   padding: 0;
-  margin: 1rem 0 0 0;
+  margin: 0;
   flex-wrap: wrap;
 }
 
 nav li {
   margin-right: 1rem;
   margin-bottom: 0.5rem;
+}
+
+nav .auth-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Use flexbox for horizontal layout */
+  gap: 1rem; /* Add some space between the links */
+}
+
+nav .nav-left {
+  display: flex;
+  flex-direction: column; /* Stack title and auth links vertically */
+  align-items: flex-start; /* Align items to the start */
+}
+
+nav .nav-right {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+nav .nav-right li {
+  margin-left: 1rem; /* Add margin to the left for spacing */
+  margin-right: 0;
 }
 
 nav a {
@@ -57,6 +85,61 @@ nav a {
 
 nav a:hover {
   background-color: var(--accent-color);
+}
+
+nav .active a {
+  background-color: var(
+    --highlight-color
+  ); /* Highlight color for active link */
+  color: var(--text-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav .nav-left {
+    width: 100%;
+    align-items: center; /* Center items in mobile view */
+  }
+
+  nav .auth-links {
+    gap: 0.5rem; /* Reduce gap in mobile view */
+  }
+
+  nav .nav-right {
+    width: 100%;
+    justify-content: center; /* Center items in mobile view */
+    margin-top: 1rem;
+  }
+
+  nav ul {
+    margin: 1rem 0;
+  }
+
+  nav .auth-links {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  nav li {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .flash-messages {
+    left: 20px;
+    right: 20px;
+    max-width: none;
+  }
 }
 
 /* Main Content */
@@ -87,14 +170,24 @@ h3 {
 .stats-container {
   background-color: var(--secondary-color);
   border-radius: 8px;
-  padding: 1rem;
+  padding: 1.5rem 1.5rem 2.5rem; /* Increased bottom padding */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  height: 300px;
+  height: 400px; /* Fixed height */
   overflow: hidden;
+  margin-bottom: 1rem;
+  position: relative;
 }
 
 .chart-container canvas {
-  max-height: 100%;
+  height: 90% !important; /* Allow space for x-axis labels */
+  width: 100% !important;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 /* Tables */
@@ -215,18 +308,196 @@ tr:hover {
   border-bottom: none;
 }
 
+/* Flash Messages / Alerts */
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 350px;
+  z-index: 1000;
+}
+
+.alert {
+  position: relative;
+  padding: 15px 40px 15px 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.alert-success {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.alert-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.alert-warning {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.alert-info {
+  background-color: var(--info-color);
+  color: white;
+}
+
+.alert-dismissible .btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.btn-close img {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Login/Register Form */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 150px);
+}
+
+.auth-card {
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+}
+
+.auth-card-header {
+  background-color: var(--accent-color);
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.auth-card-header h2 {
+  margin: 0;
+  text-align: center;
+  color: var(--text-color);
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.auth-card-body {
+  padding: 25px;
+}
+
+.auth-card-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--highlight-color);
+  box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 10px 20px;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 4px;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--highlight-color);
+  border-color: var(--highlight-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #d3304e;
+  border-color: #d3304e;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
 
-  nav ul {
+  nav {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav ul {
+    margin: 1rem 0;
+  }
+
+  nav .auth-links {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
   }
 
   nav li {
     margin-right: 0;
     margin-bottom: 0.5rem;
+  }
+
+  .flash-messages {
+    left: 20px;
+    right: 20px;
+    max-width: none;
   }
 }

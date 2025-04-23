@@ -9,15 +9,20 @@ import { addLogToStore, saveLogStore } from "./core.js";
 // Charts for the main dashboard
 let severityChart = null;
 let timeChart = null;
+let categoryChart = null;
+let accessResultsChart = null;
 
 // Initialize the dashboard view
 function initDashboard(logStore) {
   // Create charts
   createSeverityChart();
-  createTimeChart();
+  createTimeChart(logStore);
+  createCategoryChart();
+  createAccessResultsChart();
 
   // Set up recent activity list
   const recentActivityList = document.getElementById("recentActivityList");
+  updateRecentActivity(logStore, recentActivityList, true); // Pass logStore and a flag for initial load
 
   // Initial data fetch
   fetchSampleLogs(logStore, recentActivityList);
@@ -63,6 +68,8 @@ function fetchSampleLogs(logStore, recentActivityList) {
       // Update dashboard components
       updateSeverityChart(logStore);
       updateTimeChart();
+      updateCategoryChart(logStore);
+      updateAccessResultsChart(logStore);
       updateRecentActivity(logStore, recentActivityList);
       updateSystemStatus(logStore);
     })
@@ -253,6 +260,176 @@ function updateTimeChart() {
   timeChart.update();
 }
 
+// Create Log Count by Category chart
+function createCategoryChart() {
+  const ctx = document.getElementById("categoryChart").getContext("2d");
+  categoryChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [
+        "Network",
+        "Server",
+        "Surveillance",
+        "Access",
+        "Security",
+        "Comms",
+        "Inmate",
+      ],
+      datasets: [
+        {
+          label: "Log Count",
+          data: [0, 0, 0, 0, 0, 0, 0],
+          backgroundColor: [
+            "#2196f3", // blue
+            "#ff9800", // orange
+            "#4caf50", // green
+            "#9c27b0", // purple
+            "#f44336", // red
+            "#00bcd4", // cyan
+            "#ffeb3b", // yellow
+          ],
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "#f1f1f1",
+          },
+          grid: {
+            color: "rgba(255, 255, 255, 0.1)",
+          },
+        },
+        x: {
+          ticks: {
+            color: "#f1f1f1",
+          },
+          grid: {
+            color: "rgba(255, 255, 255, 0.1)",
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        title: {
+          display: false,
+        },
+      },
+    },
+  });
+}
+
+// Update Log Count by Category chart
+function updateCategoryChart(logStore) {
+  if (!categoryChart) return;
+
+  const categoryCounts = {
+    network: logStore.network.length,
+    server_logs: logStore.server_logs.length,
+    video_surveillance: logStore.video_surveillance.length,
+    biometric_access: logStore.biometric_access.length,
+    physical_security: logStore.physical_security.length,
+    internal_comms: logStore.internal_comms.length,
+    inmate_threats: logStore.inmate_threats.length,
+  };
+
+  // Introduce randomness for a more dynamic feel
+  const randomizedCounts = [
+    Math.max(0, categoryCounts.network + Math.floor(Math.random() * 10 - 5)),
+    Math.max(
+      0,
+      categoryCounts.server_logs + Math.floor(Math.random() * 10 - 5)
+    ),
+    Math.max(
+      0,
+      categoryCounts.video_surveillance + Math.floor(Math.random() * 10 - 5)
+    ),
+    Math.max(
+      0,
+      categoryCounts.biometric_access + Math.floor(Math.random() * 10 - 5)
+    ),
+    Math.max(
+      0,
+      categoryCounts.physical_security + Math.floor(Math.random() * 10 - 5)
+    ),
+    Math.max(
+      0,
+      categoryCounts.internal_comms + Math.floor(Math.random() * 10 - 5)
+    ),
+    Math.max(
+      0,
+      categoryCounts.inmate_threats + Math.floor(Math.random() * 10 - 5)
+    ),
+  ];
+
+  categoryChart.data.datasets[0].data = randomizedCounts;
+
+  categoryChart.update();
+}
+
+// Create Access Control Results chart
+function createAccessResultsChart() {
+  const ctx = document.getElementById("accessResultsChart").getContext("2d");
+  accessResultsChart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: ["Granted", "Denied"],
+      datasets: [
+        {
+          data: [0, 0],
+          backgroundColor: ["#4caf50", "#f44336"], // green, red
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "right",
+          labels: {
+            color: "#f1f1f1",
+          },
+        },
+        title: {
+          display: false,
+        },
+      },
+    },
+  });
+}
+
+// Update Access Control Results chart
+function updateAccessResultsChart(logStore) {
+  if (!accessResultsChart) return;
+
+  const accessResultsCounts = {
+    granted: 0,
+    denied: 0,
+  };
+
+  logStore.biometric_access.forEach((log) => {
+    if (log.access_result) {
+      accessResultsCounts[log.access_result.toLowerCase()]++;
+    }
+  });
+
+  accessResultsChart.data.datasets[0].data = [
+    accessResultsCounts.granted,
+    accessResultsCounts.denied,
+  ];
+
+  accessResultsChart.update();
+}
+
 // Update recent activity list
 function updateRecentActivity(logStore, listElement) {
   if (!listElement) return;
@@ -334,11 +511,28 @@ function updateRecentActivity(logStore, listElement) {
       item.message
     } <span class="timestamp">${timestamp.toLocaleTimeString()}</span>`;
 
-    // Add severity indicator if available
-    if (item.log.threat_level || item.log.level) {
-      const level = (item.log.threat_level || item.log.level).toLowerCase();
+    // Determine severity level for the dot
+    let severityLevel = null;
+    if (item.log.threat_level) {
+      severityLevel = item.log.threat_level.toLowerCase();
+    } else if (item.log.level) {
+      severityLevel = item.log.level.toLowerCase();
+    } else if (item.type === "Server" && item.log.status) {
+      const status = item.log.status.toLowerCase();
+      if (status === "escalated") {
+        severityLevel = "high";
+      } else if (status === "investigating" || status === "monitoring") {
+        severityLevel = "medium";
+      } else if (status === "resolved") {
+        severityLevel = "low";
+      }
+    }
+
+    // Add severity indicator if a level was determined
+    if (severityLevel) {
       li.innerHTML =
-        `<span class="status-indicator status-${level}"></span>` + li.innerHTML;
+        `<span class="status-indicator status-${severityLevel}"></span>` +
+        li.innerHTML;
     }
 
     listElement.prepend(li);

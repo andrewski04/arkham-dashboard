@@ -10,6 +10,14 @@ content %}
     <h3>Alerts Over Time</h3>
     <canvas id="timeChart"></canvas>
   </div>
+  <div class="chart-container">
+    <h3>Log Count by Category</h3>
+    <canvas id="categoryChart"></canvas>
+  </div>
+  <div class="chart-container">
+    <h3>Access Control Results</h3>
+    <canvas id="accessResultsChart"></canvas>
+  </div>
   <div class="stats-container">
     <h3>Recent Activity</h3>
     <ul id="recentActivityList">
@@ -25,4 +33,7 @@ content %}
     <p>Physical Security: <span id="physicalStatus">Monitoring...</span></p>
   </div>
 </div>
+{% endblock %} {% block scripts %} {{ super() }}
+<!-- Optional: Include scripts from base template if needed -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 {% endblock %}

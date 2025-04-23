@@ -14,46 +14,80 @@
       type="text/css"
       href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js script removed, will be loaded in specific templates -->
   </head>
   <body>
     <nav>
-      <h1>Arkham Asylum Security Dashboard</h1>
-      <ul>
-        <li><a href="{{ url_for('frontend.dashboard') }}">Overview</a></li>
-        <li><a href="{{ url_for('frontend.network_logs') }}">Network</a></li>
-        <li><a href="{{ url_for('frontend.server_logs') }}">Server Logs</a></li>
-        <li>
-          <a href="{{ url_for('frontend.video_surveillance_logs') }}"
-            >Video Surveillance</a
-          >
-        </li>
-        <li>
-          <a href="{{ url_for('frontend.biometric_access_logs') }}"
-            >Biometric Access</a
-          >
-        </li>
-        <li>
-          <a href="{{ url_for('frontend.physical_security_logs') }}"
-            >Physical Security</a
-          >
-        </li>
-        <li>
-          <a href="{{ url_for('frontend.internal_comms_logs') }}"
-            >Internal Comms</a
-          >
-        </li>
-        <li>
-          <a href="{{ url_for('frontend.inmate_threats_logs') }}"
-            >Inmate Threats</a
-          >
-        </li>
-      </ul>
+      <div class="nav-left">
+        <h1>Arkham Asylum Security Dashboard</h1>
+        <ul class="auth-links">
+          {% if session.user_id %}
+          <li><span>Welcome, {{ session.user_id }}!</span></li>
+          <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+          {% else %}
+          <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+          <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li {% if request.endpoint == 'frontend.dashboard' %}class="active"{% endif %}><a href="{{ url_for('frontend.dashboard') }}">Overview</a></li>
+          <li {% if request.endpoint == 'frontend.network_logs' %}class="active"{% endif %}><a href="{{ url_for('frontend.network_logs') }}">Network</a></li>
+          <li {% if request.endpoint == 'frontend.server_logs' %}class="active"{% endif %}><a href="{{ url_for('frontend.server_logs') }}">Server Logs</a></li>
+          <li {% if request.endpoint == 'frontend.video_surveillance_logs' %}class="active"{% endif %}>
+            <a href="{{ url_for('frontend.video_surveillance_logs') }}"
+              >Video Surveillance</a
+            >
+          </li>
+          <li {% if request.endpoint == 'frontend.biometric_access_logs' %}class="active"{% endif %}>
+            <a href="{{ url_for('frontend.biometric_access_logs') }}"
+              >Biometric Access</a
+            >
+          </li>
+          <li {% if request.endpoint == 'frontend.physical_security_logs' %}class="active"{% endif %}>
+            <a href="{{ url_for('frontend.physical_security_logs') }}"
+              >Physical Security</a
+            >
+          </li>
+          <li {% if request.endpoint == 'frontend.internal_comms_logs' %}class="active"{% endif %}>
+            <a href="{{ url_for('frontend.internal_comms_logs') }}"
+              >Internal Comms</a
+            >
+          </li>
+          <li {% if request.endpoint == 'frontend.inmate_threats_logs' %}class="active"{% endif %}>
+            <a href="{{ url_for('frontend.inmate_threats_logs') }}"
+              >Inmate Threats</a
+            >
+          </li>
+        </ul>
+      </div>
     </nav>
+
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          onclick="this.parentElement.remove()"
+        >
+          <img
+            src="{{ url_for('static', filename='icon/white-x.svg') }}"
+            alt="Close"
+          />
+        </button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
     <main>{% block content %}{% endblock %}</main>
     <script
       type="module"
       src="{{ url_for('static', filename='js/dashboard.js') }}"
+      defer
     ></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -66,7 +100,10 @@
     <!-- Custom JS for initializing DataTables -->
     <script
       type="module"
-      src="{{ url_for('static', filename='js/log-view.js') }}"
+      src="{{ url_for('static', filename='js/table-init.js') }}"
+      defer
     ></script>
+    <!-- Block for page-specific scripts like Chart.js -->
+    {% block scripts %}{% endblock %}
   </body>
 </html>
