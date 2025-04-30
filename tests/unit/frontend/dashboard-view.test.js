@@ -17,6 +17,8 @@ beforeEach(() => {
   document.body.innerHTML = `
     <canvas id="severityChart"></canvas>
     <canvas id="timeChart"></canvas>
+    <canvas id="categoryChart"></canvas>
+    <canvas id="accessResultsChart"></canvas>
     <ul id="recentActivityList"></ul>
   `;
 

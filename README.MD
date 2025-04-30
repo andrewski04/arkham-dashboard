@@ -69,7 +69,7 @@ Make sure your virtual environment is activated and dependencies installed.
 Run all Python tests with:
 
 ```
-python -m pytest
+py -m pytest
 ```
 
 ### Frontend JavaScript unit tests
