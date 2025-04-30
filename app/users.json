@@ -1,0 +1,8 @@
+{
+    "dashuser_1746031139506": {
+        "password": "scrypt:32768:8:1$wtSATO6x2WilFjZu$9c6bd91c43eee4a0353fa03d0090773c2d1b4e88cfc2e9fe7377f9ae6e4e0d938eea2c67f1c03da6519fe9e16caa63debea9aafa8b741b0d06346ceaf6a0c27e"
+    },
+    "testuser_1746031139280": {
+        "password": "scrypt:32768:8:1$eo9eDdhW6DTPttfN$a4f579de581a970f6830813f503acd549741d556e0e5a96a5561b33cc53e8f67a6e950de68e9362a93fbd9100f553190707d7590ca43bd81f22598fdfd606510"
+    }
+}

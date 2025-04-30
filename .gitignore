@@ -2,6 +2,8 @@ __pycache__/
 *.pyc
 .venv/
 
+users.json
+
 # Node.js
 node_modules/
 npm-debug.log
